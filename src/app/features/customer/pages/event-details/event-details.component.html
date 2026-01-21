@@ -1,0 +1,107 @@
+<div class="event-details-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p>Loading event details...</p>
+  </div>
+
+  <div *ngIf="errorMessage && !loading" class="error-message">
+    <mat-icon>error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="!loading && event" class="content">
+    <button mat-button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Events
+    </button>
+
+    <mat-card class="event-card">
+      <mat-card-header class="event-header">
+        <mat-card-title>{{ event.name }}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="event-details">
+          <section class="details-section">
+            <h3>Event Information</h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <mat-icon>event</mat-icon>
+                <div>
+                  <label>Date & Time</label>
+                  <p>{{ formatDate(event.eventDateTime) }}</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <mat-icon>attach_money</mat-icon>
+                <div>
+                  <label>Price</label>
+                  <p class="price">{{ formatPrice(event.price) }}</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <mat-icon>people</mat-icon>
+                <div>
+                  <label>Capacity</label>
+                  <p>{{ event.capacity }} seats</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <mat-icon>confirmation_number</mat-icon>
+                <div>
+                  <label>Available Tickets</label>
+                  <p>{{ event.availableTickets }} / {{ event.capacity }}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="details-section">
+            <h3>Description</h3>
+            <p class="description">{{ event.description }}</p>
+          </section>
+
+          <section class="details-section">
+            <h3>Ticket Availability</h3>
+            <div class="capacity-info">
+              <div class="capacity-labels">
+                <span>{{ event.capacity - event.availableTickets }} sold</span>
+                <span>{{ getOccupancyPercentage() | number:'1.0-0' }}% occupied</span>
+              </div>
+              <mat-progress-bar
+                mode="determinate"
+                [value]="getOccupancyPercentage()"
+                [color]="getOccupancyPercentage() >= 80 ? 'warn' : 'primary'">
+              </mat-progress-bar>
+            </div>
+          </section>
+
+          <div class="error-message-inline" *ngIf="errorMessage">
+            <mat-icon>error</mat-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+
+          <div class="actions">
+            <button
+              mat-raised-button
+              color="primary"
+              class="reserve-button"
+              [disabled]="isReserveButtonDisabled()"
+              (click)="reserveTicket()">
+              <mat-spinner *ngIf="reserving" diameter="20"></mat-spinner>
+              <span *ngIf="!reserving">{{ getReserveButtonText() }}</span>
+            </button>
+
+            <p class="reservation-notice" *ngIf="alreadyReserved">
+              <mat-icon>info</mat-icon>
+              You have already reserved a ticket for this event.
+            </p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="profile-container">
+  <div class="header">
+    <h1>My Profile</h1>
+    <p class="subtitle">Manage your account information</p>
+  </div>
+
+  <div class="content" *ngIf="user">
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <div class="avatar">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <div class="user-info">
+          <mat-card-title>{{ user.email }}</mat-card-title>
+          <mat-card-subtitle>{{ user.role }}</mat-card-subtitle>
+        </div>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-content>
+        <section class="info-section">
+          <h3>
+            <mat-icon>person</mat-icon>
+            Account Information
+          </h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Email Address</label>
+              <p>{{ user.email }}</p>
+            </div>
+
+            <div class="info-item">
+              <label>Role</label>
+              <p class="role-badge">{{ user.role }}</p>
+            </div>
+
+            <div class="info-item">
+              <label>Member Since</label>
+              <p>{{ formatDate(user.createdAt) }}</p>
+            </div>
+          </div>
+        </section>
+
+        <mat-divider></mat-divider>
+
+        <section class="info-section">
+          <h3>
+            <mat-icon>analytics</mat-icon>
+            Statistics
+          </h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <mat-icon>confirmation_number</mat-icon>
+              </div>
+              <div class="stat-content">
+                <label>Active Tickets</label>
+                <p class="stat-value" *ngIf="!loadingStats">{{ totalTickets }}</p>
+                <p class="stat-value" *ngIf="loadingStats">...</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="viewMyTickets()">
+          <mat-icon>confirmation_number</mat-icon>
+          View My Tickets
+        </button>
+        <button mat-stroked-button color="warn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div class="content" *ngIf="!user">
+    <mat-card class="error-card">
+      <mat-card-content>
+        <div class="error-state">
+          <mat-icon>error_outline</mat-icon>
+          <h2>Unable to Load Profile</h2>
+          <p>Please try logging in again.</p>
+          <button mat-raised-button color="primary" (click)="logout()">
+            Go to Login
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

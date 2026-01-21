@@ -1,0 +1,137 @@
+<div class="tickets-container">
+  <div class="header">
+    <h1>My Tickets</h1>
+    <p class="subtitle">View and manage your concert reservations</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p>Loading tickets...</p>
+  </div>
+
+  <div *ngIf="errorMessage && !loading" class="error-message">
+    <mat-icon>error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage" class="content">
+    <mat-tab-group animationDuration="300ms">
+      <mat-tab label="Upcoming ({{ upcomingTickets.length }})">
+        <div class="tab-content">
+          <div *ngIf="upcomingTickets.length === 0" class="empty-state">
+            <mat-icon>confirmation_number</mat-icon>
+            <h2>No Upcoming Events</h2>
+            <p>You don't have any upcoming event reservations.</p>
+            <button mat-raised-button color="primary" routerLink="/customer/events">
+              Browse Events
+            </button>
+          </div>
+
+          <div *ngIf="upcomingTickets.length > 0" class="tickets-grid">
+            <mat-card *ngFor="let ticket of upcomingTickets" class="ticket-card">
+              <mat-card-header>
+                <mat-card-title>{{ ticket.eventName }}</mat-card-title>
+                <mat-chip [color]="getStatusColor(ticket.status)" selected>
+                  {{ ticket.status }}
+                </mat-chip>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div class="ticket-info">
+                  <div class="info-row">
+                    <mat-icon>confirmation_number</mat-icon>
+                    <span>Ticket #{{ ticket.ticketNumber }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <mat-icon>event</mat-icon>
+                    <span>{{ formatDate(ticket.eventDateTime) }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <mat-icon>attach_money</mat-icon>
+                    <span class="price">{{ formatPrice(ticket.price) }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <mat-icon>schedule</mat-icon>
+                    <span>Reserved: {{ formatDate(ticket.reservedAt) }}</span>
+                  </div>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <button mat-button color="primary" (click)="viewTicketDetails(ticket.id)">
+                  <mat-icon>visibility</mat-icon>
+                  View Details
+                </button>
+                <button
+                  mat-button
+                  color="warn"
+                  [disabled]="!canCancelTicket(ticket) || isCancelling(ticket.id)"
+                  (click)="cancelTicket(ticket)">
+                  <mat-spinner *ngIf="isCancelling(ticket.id)" diameter="16"></mat-spinner>
+                  <mat-icon *ngIf="!isCancelling(ticket.id)">cancel</mat-icon>
+                  <span *ngIf="!isCancelling(ticket.id)">Cancel</span>
+                  <span *ngIf="isCancelling(ticket.id)">Cancelling...</span>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Past ({{ pastTickets.length }})">
+        <div class="tab-content">
+          <div *ngIf="pastTickets.length === 0" class="empty-state">
+            <mat-icon>history</mat-icon>
+            <h2>No Past Events</h2>
+            <p>You don't have any past event reservations yet.</p>
+          </div>
+
+          <div *ngIf="pastTickets.length > 0" class="tickets-grid">
+            <mat-card *ngFor="let ticket of pastTickets" class="ticket-card past">
+              <mat-card-header>
+                <mat-card-title>{{ ticket.eventName }}</mat-card-title>
+                <mat-chip [color]="getStatusColor(ticket.status)" selected>
+                  {{ ticket.status }}
+                </mat-chip>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div class="ticket-info">
+                  <div class="info-row">
+                    <mat-icon>confirmation_number</mat-icon>
+                    <span>Ticket #{{ ticket.ticketNumber }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <mat-icon>event</mat-icon>
+                    <span>{{ formatDate(ticket.eventDateTime) }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <mat-icon>attach_money</mat-icon>
+                    <span class="price">{{ formatPrice(ticket.price) }}</span>
+                  </div>
+
+                  <div class="info-row">
+                    <mat-icon>schedule</mat-icon>
+                    <span>Reserved: {{ formatDate(ticket.reservedAt) }}</span>
+                  </div>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <button mat-button color="primary" (click)="viewTicketDetails(ticket.id)">
+                  <mat-icon>visibility</mat-icon>
+                  View Details
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

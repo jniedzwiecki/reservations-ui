@@ -1,0 +1,160 @@
+.create-power-user-container {
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: #7f8c8d;
+  }
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #ffebee;
+  color: #f44336;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+
+  mat-icon {
+    color: #f44336;
+  }
+}
+
+.form-card {
+  margin-bottom: 24px;
+
+  mat-card-content {
+    padding: 32px;
+
+    form {
+      .form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .full-width {
+          width: 100%;
+        }
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 16px;
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid #ecf0f1;
+
+        button {
+          min-width: 120px;
+          height: 44px;
+
+          .button-spinner {
+            display: inline-block;
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.info-card {
+  mat-card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    margin: -16px -16px 16px -16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .info-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      color: white;
+    }
+
+    mat-card-title {
+      color: white;
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+
+  mat-card-content {
+    padding: 24px;
+    color: #2c3e50;
+    line-height: 1.6;
+
+    p {
+      margin: 0 0 16px 0;
+      font-size: 16px;
+    }
+
+    ul {
+      margin: 16px 0;
+      padding-left: 24px;
+
+      li {
+        margin-bottom: 8px;
+        font-size: 15px;
+      }
+    }
+
+    strong {
+      color: #667eea;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .create-power-user-container {
+    padding: 20px 10px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .form-card {
+    mat-card-content {
+      padding: 16px;
+
+      .form-actions {
+        flex-direction: column;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .info-card {
+    mat-card-content {
+      padding: 16px;
+    }
+  }
+}

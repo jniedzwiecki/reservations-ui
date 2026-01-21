@@ -1,0 +1,61 @@
+<div class="home-container">
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Concert Hall Reservations</h1>
+      <p class="hero-subtitle">Book tickets for the best events in town</p>
+
+      <div class="cta-buttons">
+        <button mat-raised-button color="primary" routerLink="/auth/login" class="cta-button">
+          Login
+        </button>
+        <button mat-raised-button color="accent" routerLink="/auth/register" class="cta-button">
+          Register
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-section">
+    <div class="container">
+      <h2 class="section-title">Features</h2>
+
+      <div class="features-grid">
+        <mat-card class="feature-card">
+          <h3>Browse Events</h3>
+          <p>Discover upcoming concerts and events at our concert hall</p>
+          <button mat-raised-button
+                  color="primary"
+                  type="button"
+                  class="feature-button"
+                  (click)="navigateToEvents()">
+            {{ isAuthenticated ? 'View Events' : 'Login to Browse' }}
+          </button>
+        </mat-card>
+
+        <mat-card class="feature-card">
+          <h3>Reserve Tickets</h3>
+          <p>Easily book tickets for your favorite events online</p>
+          <button mat-raised-button
+                  color="primary"
+                  type="button"
+                  class="feature-button"
+                  (click)="navigateToEvents()">
+            {{ isAuthenticated ? 'Reserve Now' : 'Login to Reserve' }}
+          </button>
+        </mat-card>
+
+        <mat-card class="feature-card">
+          <h3>Manage Bookings</h3>
+          <p>View and manage all your ticket reservations in one place</p>
+          <button mat-raised-button
+                  color="primary"
+                  type="button"
+                  class="feature-button"
+                  (click)="navigateToMyTickets()">
+            {{ isAuthenticated ? 'My Tickets' : 'Login to Manage' }}
+          </button>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

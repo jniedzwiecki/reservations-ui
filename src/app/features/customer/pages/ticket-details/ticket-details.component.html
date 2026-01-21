@@ -1,0 +1,142 @@
+<div class="ticket-details-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p>Loading ticket details...</p>
+  </div>
+
+  <div *ngIf="errorMessage && !loading" class="error-message">
+    <mat-icon>error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="!loading && ticket" class="content">
+    <button mat-button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to My Tickets
+    </button>
+
+    <mat-card class="ticket-card">
+      <mat-card-header>
+        <div class="header-content">
+          <mat-card-title>Ticket Details</mat-card-title>
+          <mat-chip [color]="getStatusColor(ticket.status)" selected>
+            {{ ticket.status }}
+          </mat-chip>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="ticket-details">
+          <section class="details-section">
+            <h3>
+              <mat-icon>confirmation_number</mat-icon>
+              Ticket Information
+            </h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <label>Ticket Number</label>
+                <p class="highlight">{{ ticket.ticketNumber }}</p>
+              </div>
+
+              <div class="info-item">
+                <label>Price</label>
+                <p class="price">{{ formatPrice(ticket.price) }}</p>
+              </div>
+
+              <div class="info-item">
+                <label>Reservation Date</label>
+                <p>{{ formatDate(ticket.reservedAt) }}</p>
+              </div>
+
+              <div class="info-item">
+                <label>Status</label>
+                <p [class.status-reserved]="ticket.status === 'RESERVED'"
+                   [class.status-cancelled]="ticket.status === 'CANCELLED'">
+                  {{ ticket.status }}
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <mat-divider></mat-divider>
+
+          <section class="details-section">
+            <h3>
+              <mat-icon>event</mat-icon>
+              Event Information
+            </h3>
+            <div class="event-info">
+              <div class="info-item">
+                <label>Event Name</label>
+                <p class="event-name">{{ ticket.eventName }}</p>
+              </div>
+
+              <div class="info-item">
+                <label>Event Date & Time</label>
+                <p>{{ formatDate(ticket.eventDateTime) }}</p>
+              </div>
+
+              <div class="info-item" *ngIf="isEventPast()">
+                <div class="event-status past">
+                  <mat-icon>history</mat-icon>
+                  <span>This event has already taken place</span>
+                </div>
+              </div>
+
+              <div class="info-item" *ngIf="!isEventPast() && ticket.status === 'RESERVED'">
+                <div class="event-status upcoming">
+                  <mat-icon>schedule</mat-icon>
+                  <span>This event is upcoming</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <mat-divider></mat-divider>
+
+          <section class="details-section">
+            <h3>
+              <mat-icon>person</mat-icon>
+              Customer Information
+            </h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <label>Email</label>
+                <p>{{ ticket.userEmail }}</p>
+              </div>
+            </div>
+          </section>
+
+          <div class="error-message-inline" *ngIf="errorMessage">
+            <mat-icon>error</mat-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+
+          <div class="actions" *ngIf="canCancelTicket()">
+            <button
+              mat-raised-button
+              color="warn"
+              class="cancel-button"
+              [disabled]="cancelling"
+              (click)="cancelTicket()">
+              <mat-spinner *ngIf="cancelling" diameter="20"></mat-spinner>
+              <span *ngIf="!cancelling">Cancel Ticket</span>
+              <span *ngIf="cancelling">Cancelling...</span>
+            </button>
+            <p class="cancel-notice">
+              <mat-icon>info</mat-icon>
+              Cancelling this ticket will make it available for other customers.
+            </p>
+          </div>
+
+          <div class="actions" *ngIf="!canCancelTicket() && !isEventPast() && ticket.status === 'CANCELLED'">
+            <div class="cancelled-notice">
+              <mat-icon>cancel</mat-icon>
+              <span>This ticket has been cancelled</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

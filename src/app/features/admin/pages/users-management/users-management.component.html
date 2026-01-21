@@ -1,0 +1,88 @@
+<div class="users-management-container">
+  <div class="header">
+    <h1>Users Management</h1>
+    <p class="subtitle">Manage all users in the system (ADMIN only)</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p>Loading users...</p>
+  </div>
+
+  <div *ngIf="errorMessage && !loading" class="error-message">
+    <mat-icon>error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage" class="users-content">
+    <mat-card>
+      <mat-card-header>
+        <div class="card-header-content">
+          <mat-card-title>All Users</mat-card-title>
+          <button mat-raised-button color="primary" (click)="createPowerUser()">
+            <mat-icon>add</mat-icon>
+            Create Power User
+          </button>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div *ngIf="users.length === 0" class="empty-state">
+          <mat-icon>people_outline</mat-icon>
+          <p>No users found in the system.</p>
+        </div>
+
+        <div *ngIf="users.length > 0" class="table-container">
+          <table mat-table [dataSource]="users" class="users-table">
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef>Role</th>
+              <td mat-cell *matCellDef="let user">
+                <span [class]="getRoleBadgeClass(user.role)">
+                  {{ user.role }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="createdAt">
+              <th mat-header-cell *matHeaderCellDef>Created Date</th>
+              <td mat-cell *matCellDef="let user">{{ formatDate(user.createdAt) }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="removable">
+              <th mat-header-cell *matHeaderCellDef>Removable</th>
+              <td mat-cell *matCellDef="let user">
+                <span class="removable-badge" [class.removable]="user.isRemovable" [class.non-removable]="!user.isRemovable">
+                  <mat-icon>{{ user.isRemovable ? 'check_circle' : 'cancel' }}</mat-icon>
+                  {{ user.isRemovable ? 'Yes' : 'No' }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let user">
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deleteUser(user)"
+                  [disabled]="!user.isRemovable"
+                  matTooltip="{{ user.isRemovable ? 'Delete User' : 'User cannot be deleted' }}"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,237 @@
+.event-details-container {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+
+  p {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #7f8c8d;
+  }
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #ffebee;
+  color: #f44336;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+
+  mat-icon {
+    color: #f44336;
+  }
+}
+
+.content {
+  .back-button {
+    margin-bottom: 20px;
+    color: #2c3e50;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.event-card {
+  .event-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    margin: -16px -16px 0 -16px;
+
+    mat-card-title {
+      color: white;
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  mat-card-content {
+    padding: 30px;
+  }
+}
+
+.event-details {
+  .details-section {
+    margin-bottom: 32px;
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #ecf0f1;
+    }
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    mat-icon {
+      color: #667eea;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    div {
+      flex: 1;
+
+      label {
+        display: block;
+        font-size: 12px;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      p {
+        font-size: 16px;
+        color: #2c3e50;
+        font-weight: 500;
+        margin: 0;
+
+        &.price {
+          font-size: 22px;
+          color: #27ae60;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .description {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #2c3e50;
+    margin: 0;
+  }
+
+  .capacity-info {
+    .capacity-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #7f8c8d;
+      font-weight: 500;
+    }
+
+    mat-progress-bar {
+      height: 12px;
+      border-radius: 6px;
+    }
+  }
+
+  .error-message-inline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background-color: #ffebee;
+    color: #f44336;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+
+    mat-icon {
+      color: #f44336;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .actions {
+    margin-top: 32px;
+
+    .reserve-button {
+      width: 100%;
+      height: 56px;
+      font-size: 18px;
+      font-weight: 600;
+
+      mat-spinner {
+        display: inline-block;
+        margin: 0 auto;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+      }
+    }
+
+    .reservation-notice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px;
+      background-color: #e3f2fd;
+      color: #1976d2;
+      border-radius: 8px;
+      font-size: 14px;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .event-details-container {
+    padding: 20px 16px;
+  }
+
+  .event-card {
+    .event-header {
+      padding: 20px;
+
+      mat-card-title {
+        font-size: 22px;
+      }
+    }
+
+    mat-card-content {
+      padding: 20px;
+    }
+  }
+
+  .event-details {
+    .info-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+}

@@ -1,0 +1,101 @@
+<mat-toolbar class="app-header">
+  <div class="header-content">
+    <!-- Logo / App Name -->
+    <div class="logo-section">
+      <button mat-icon-button class="menu-toggle" (click)="toggleMobileMenu()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <a routerLink="/" class="app-logo">
+        <mat-icon>confirmation_number</mat-icon>
+        <span class="app-name">Concert Hall</span>
+      </a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav" *ngIf="currentUser">
+      <!-- Customer Navigation -->
+      <ng-container *ngIf="isCustomer()">
+        <a mat-button routerLink="/customer/events" routerLinkActive="active">Events</a>
+        <a mat-button routerLink="/customer/tickets" routerLinkActive="active">My Tickets</a>
+        <a mat-button routerLink="/customer/profile" routerLinkActive="active">Profile</a>
+      </ng-container>
+
+      <!-- Admin/Power User Navigation -->
+      <ng-container *ngIf="isAdminOrPowerUser()">
+        <a mat-button routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+        <a mat-button routerLink="/admin/events" routerLinkActive="active">Events Management</a>
+        <a mat-button *ngIf="isAdmin()" routerLink="/admin/users" routerLinkActive="active">Users</a>
+      </ng-container>
+    </nav>
+
+    <!-- User Menu -->
+    <div class="user-menu" *ngIf="currentUser">
+      <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+        <mat-icon>account_circle</mat-icon>
+        <span class="user-email">{{ currentUser.email }}</span>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item (click)="navigateToProfile()">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>
+
+<!-- Mobile Side Navigation -->
+<mat-sidenav-container class="mobile-nav-container" *ngIf="currentUser">
+  <mat-sidenav #sidenav mode="over" [(opened)]="mobileMenuOpen" class="mobile-nav">
+    <mat-nav-list>
+      <div class="mobile-nav-header">
+        <mat-icon>account_circle</mat-icon>
+        <span>{{ currentUser.email }}</span>
+      </div>
+
+      <!-- Customer Navigation -->
+      <ng-container *ngIf="isCustomer()">
+        <a mat-list-item routerLink="/customer/events" (click)="toggleMobileMenu()" routerLinkActive="active">
+          <mat-icon matListItemIcon>event</mat-icon>
+          <span matListItemTitle>Events</span>
+        </a>
+        <a mat-list-item routerLink="/customer/tickets" (click)="toggleMobileMenu()" routerLinkActive="active">
+          <mat-icon matListItemIcon>confirmation_number</mat-icon>
+          <span matListItemTitle>My Tickets</span>
+        </a>
+        <a mat-list-item routerLink="/customer/profile" (click)="toggleMobileMenu()" routerLinkActive="active">
+          <mat-icon matListItemIcon>person</mat-icon>
+          <span matListItemTitle>Profile</span>
+        </a>
+      </ng-container>
+
+      <!-- Admin/Power User Navigation -->
+      <ng-container *ngIf="isAdminOrPowerUser()">
+        <a mat-list-item routerLink="/admin/dashboard" (click)="toggleMobileMenu()" routerLinkActive="active">
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          <span matListItemTitle>Dashboard</span>
+        </a>
+        <a mat-list-item routerLink="/admin/events" (click)="toggleMobileMenu()" routerLinkActive="active">
+          <mat-icon matListItemIcon>event</mat-icon>
+          <span matListItemTitle>Events Management</span>
+        </a>
+        <a mat-list-item *ngIf="isAdmin()" routerLink="/admin/users" (click)="toggleMobileMenu()" routerLinkActive="active">
+          <mat-icon matListItemIcon>group</mat-icon>
+          <span matListItemTitle>Users</span>
+        </a>
+      </ng-container>
+
+      <mat-divider></mat-divider>
+
+      <a mat-list-item (click)="logout(); toggleMobileMenu()">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <span matListItemTitle>Logout</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+</mat-sidenav-container>

@@ -1,0 +1,172 @@
+<div class="event-sales-container">
+  <div class="header">
+    <h1>Event Sales Analytics</h1>
+    <p class="subtitle">Detailed sales information and statistics</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p>Loading sales data...</p>
+  </div>
+
+  <div *ngIf="errorMessage && !loading" class="error-message">
+    <mat-icon>error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage && event && salesData" class="sales-content">
+    <mat-card class="event-summary-card">
+      <mat-card-header>
+        <mat-icon class="header-icon">event</mat-icon>
+        <div class="header-content">
+          <mat-card-title>{{ event.name }}</mat-card-title>
+          <mat-card-subtitle>{{ formatDate(event.eventDateTime) }}</mat-card-subtitle>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="event-details">
+          <div class="detail-item">
+            <mat-icon>description</mat-icon>
+            <span>{{ event.description }}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>attach_money</mat-icon>
+            <span>Ticket Price: {{ formatPrice(event.price) }}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>label</mat-icon>
+            <span class="status-badge" [class]="'status-' + event.status.toLowerCase()">
+              {{ event.status }}
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-divider></mat-divider>
+
+    <div class="metrics-grid">
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <mat-icon class="metric-icon tickets-sold">confirmation_number</mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Tickets Sold</h3>
+          <p class="metric-value">{{ salesData.ticketsSold }}</p>
+          <p class="metric-label">out of {{ salesData.capacity }}</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <mat-icon class="metric-icon available">inventory_2</mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Available Tickets</h3>
+          <p class="metric-value">{{ salesData.availableTickets }}</p>
+          <p class="metric-label">remaining</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <mat-icon class="metric-icon revenue">attach_money</mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Total Revenue</h3>
+          <p class="metric-value">{{ formatPrice(salesData.revenue) }}</p>
+          <p class="metric-label">generated</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <mat-icon class="metric-icon occupancy">people</mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Occupancy Rate</h3>
+          <p class="metric-value">{{ formatPercentage(salesData.occupancyRate) }}</p>
+          <p class="metric-label">of capacity</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <mat-card class="statistics-card">
+      <mat-card-header>
+        <mat-card-title>Sales Statistics</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="statistics-grid">
+          <div class="stat-row">
+            <div class="stat-label">
+              <mat-icon>event</mat-icon>
+              <span>Event ID</span>
+            </div>
+            <div class="stat-value">{{ salesData.eventId }}</div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-label">
+              <mat-icon>event_note</mat-icon>
+              <span>Event Name</span>
+            </div>
+            <div class="stat-value">{{ salesData.eventName }}</div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-label">
+              <mat-icon>group</mat-icon>
+              <span>Total Capacity</span>
+            </div>
+            <div class="stat-value">{{ salesData.capacity }} seats</div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-label">
+              <mat-icon>shopping_cart</mat-icon>
+              <span>Tickets Sold</span>
+            </div>
+            <div class="stat-value">{{ salesData.ticketsSold }} tickets</div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-label">
+              <mat-icon>inventory</mat-icon>
+              <span>Remaining Tickets</span>
+            </div>
+            <div class="stat-value">{{ salesData.availableTickets }} tickets</div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-label">
+              <mat-icon>payments</mat-icon>
+              <span>Total Revenue</span>
+            </div>
+            <div class="stat-value revenue-highlight">{{ formatPrice(salesData.revenue) }}</div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-label">
+              <mat-icon>assessment</mat-icon>
+              <span>Occupancy Rate</span>
+            </div>
+            <div class="stat-value">{{ formatPercentage(salesData.occupancyRate) }}</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="action-buttons">
+      <button mat-raised-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Events
+      </button>
+      <button mat-raised-button color="accent" routerLink="/admin/events/{{ eventId }}/edit">
+        <mat-icon>edit</mat-icon>
+        Edit Event
+      </button>
+    </div>
+  </div>
+</div>
