@@ -16,8 +16,14 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       } else {
         // Server-side error
         if (error.status === 401) {
-          router.navigate(['/auth/login']);
-          errorMessage = 'Session expired. Please login again.';
+          // Don't redirect if this is an auth endpoint (login/register)
+          // Let the component handle the error
+          if (!req.url.includes('/auth/')) {
+            router.navigate(['/auth/login']);
+            errorMessage = 'Session expired. Please login again.';
+          } else {
+            errorMessage = 'Invalid credentials. Please try again.';
+          }
         } else if (error.status === 403) {
           errorMessage = 'You do not have permission to perform this action.';
         } else if (error.error?.message) {

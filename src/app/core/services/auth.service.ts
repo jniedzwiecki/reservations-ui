@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, timeout, catchError, throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../../../environments/environment';
 import {
@@ -37,8 +37,17 @@ export class AuthService {
   }
 
   login(data: LoginRequest): Observable<AuthResponse> {
+    console.log('AuthService: Starting login request to', `${this.API_URL}/login`);
     return this.http.post<AuthResponse>(`${this.API_URL}/login`, data).pipe(
-      tap(response => this.handleAuthResponse(response))
+      timeout(10000), // 10 second timeout
+      tap(response => {
+        console.log('AuthService: Login successful, handling response');
+        this.handleAuthResponse(response);
+      }),
+      catchError(error => {
+        console.error('AuthService: Login error', error);
+        return throwError(() => error);
+      })
     );
   }
 

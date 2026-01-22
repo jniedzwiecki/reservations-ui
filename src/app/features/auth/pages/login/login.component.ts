@@ -57,6 +57,7 @@ export class LoginComponent {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
+        console.log('Login successful', response);
         this.loading = false;
 
         // Redirect to returnUrl if specified, otherwise redirect based on role
@@ -74,8 +75,14 @@ export class LoginComponent {
         }
       },
       error: (error) => {
+        console.error('Login error caught in component:', error);
         this.loading = false;
         this.errorMessage = error.message || 'Login failed. Please check your credentials.';
+      },
+      complete: () => {
+        console.log('Login observable completed');
+        // Ensure loading is false even if error callback doesn't fire
+        this.loading = false;
       }
     });
   }
