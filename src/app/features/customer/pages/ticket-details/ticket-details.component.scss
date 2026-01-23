@@ -158,9 +158,46 @@
         font-weight: 600;
       }
 
+      &.status-pending {
+        color: #f39c12;
+        font-weight: 600;
+      }
+
       &.status-cancelled {
         color: #e74c3c;
         font-weight: 600;
+      }
+    }
+
+    .payment-timer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #f39c12 !important;
+      font-weight: 600 !important;
+      font-size: 18px !important;
+
+      mat-icon {
+        color: #f39c12;
+        font-size: 22px;
+        width: 22px;
+        height: 22px;
+      }
+
+      .timer-text {
+        font-family: monospace;
+      }
+    }
+
+    .payment-expired {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #e74c3c !important;
+      font-weight: 600 !important;
+
+      mat-icon {
+        color: #e74c3c;
       }
     }
 
@@ -221,6 +258,37 @@
     margin-top: 32px;
     padding-top: 32px;
     border-top: 2px solid #ecf0f1;
+
+    .pay-button {
+      width: 100%;
+      height: 56px;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+
+    .payment-notice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px;
+      background-color: #fff3e0;
+      color: #e65100;
+      border-radius: 8px;
+      font-size: 14px;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
 
     .cancel-button {
       width: 100%;

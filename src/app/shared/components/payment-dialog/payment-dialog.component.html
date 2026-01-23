@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>
+  <mat-icon>payment</mat-icon>
+  Complete Payment
+</h2>
+
+<mat-dialog-content>
+  <div class="payment-info">
+    <p><strong>Event:</strong> {{ data.eventName }}</p>
+    <p><strong>Amount:</strong> ${{ data.amount.toFixed(2) }}</p>
+  </div>
+
+  <form [formGroup]="paymentForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Payment Method</mat-label>
+      <mat-select formControlName="paymentMethod">
+        <mat-option [value]="PaymentMethod.CREDIT_CARD">Credit Card</mat-option>
+        <mat-option [value]="PaymentMethod.DEBIT_CARD">Debit Card</mat-option>
+        <mat-option [value]="PaymentMethod.PAYPAL">PayPal</mat-option>
+        <mat-option [value]="PaymentMethod.BANK_TRANSFER">Bank Transfer</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Card Number</mat-label>
+      <input matInput formControlName="cardNumber" placeholder="1234567890123456" maxlength="16">
+      <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
+        Card number is required
+      </mat-error>
+      <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('pattern')">
+        Card number must be 16 digits
+      </mat-error>
+    </mat-form-field>
+
+    <div class="test-cards">
+      <p class="test-cards-label">Test Cards:</p>
+      <button type="button" mat-stroked-button color="primary" (click)="useTestCard(true)">
+        Use Success Card (4111...)
+      </button>
+      <button type="button" mat-stroked-button color="warn" (click)="useTestCard(false)">
+        Use Failure Card (4000...)
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <mat-icon>error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" [disabled]="processing">
+    Cancel
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="paymentForm.invalid || processing">
+    <mat-spinner *ngIf="processing" diameter="20" class="button-spinner"></mat-spinner>
+    <span *ngIf="!processing">Pay ${{ data.amount.toFixed(2) }}</span>
+    <span *ngIf="processing">Processing...</span>
+  </button>
+</mat-dialog-actions>

@@ -61,6 +61,14 @@
               </mat-card-content>
 
               <mat-card-actions>
+                <button
+                  *ngIf="isPendingPayment(ticket) && !isPaymentExpired(ticket)"
+                  mat-raised-button
+                  color="accent"
+                  (click)="payForTicket(ticket)">
+                  <mat-icon>payment</mat-icon>
+                  Pay Now
+                </button>
                 <button mat-button color="primary" (click)="viewTicketDetails(ticket.id)">
                   <mat-icon>visibility</mat-icon>
                   View Details

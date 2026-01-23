@@ -50,9 +50,26 @@
 
               <div class="info-item">
                 <label>Status</label>
-                <p [class.status-reserved]="ticket.status === 'RESERVED'"
-                   [class.status-cancelled]="ticket.status === 'CANCELLED'">
+                <p [class.status-reserved]="ticket.status === 'RESERVED' || ticket.status === 'PAID'"
+                   [class.status-pending]="ticket.status === 'PENDING_PAYMENT'"
+                   [class.status-cancelled]="ticket.status === 'CANCELLED' || ticket.status === 'PAYMENT_FAILED'">
                   {{ ticket.status }}
+                </p>
+              </div>
+
+              <div class="info-item" *ngIf="isPendingPayment() && !isPaymentExpired()">
+                <label>Payment Deadline</label>
+                <p class="payment-timer">
+                  <mat-icon>timer</mat-icon>
+                  <span class="timer-text">{{ timeRemaining.minutes }}:{{ timeRemaining.seconds < 10 ? '0' : '' }}{{ timeRemaining.seconds }} remaining</span>
+                </p>
+              </div>
+
+              <div class="info-item" *ngIf="isPendingPayment() && isPaymentExpired()">
+                <label>Payment Status</label>
+                <p class="payment-expired">
+                  <mat-icon>error</mat-icon>
+                  <span>Payment deadline expired</span>
                 </p>
               </div>
             </div>
@@ -83,7 +100,7 @@
                 </div>
               </div>
 
-              <div class="info-item" *ngIf="!isEventPast() && ticket.status === 'RESERVED'">
+              <div class="info-item" *ngIf="!isEventPast() && (ticket.status === 'RESERVED' || ticket.status === 'PAID' || ticket.status === 'PENDING_PAYMENT')">
                 <div class="event-status upcoming">
                   <mat-icon>schedule</mat-icon>
                   <span>This event is upcoming</span>
@@ -110,6 +127,21 @@
           <div class="error-message-inline" *ngIf="errorMessage">
             <mat-icon>error</mat-icon>
             <span>{{ errorMessage }}</span>
+          </div>
+
+          <div class="actions" *ngIf="isPendingPayment() && !isPaymentExpired()">
+            <button
+              mat-raised-button
+              color="accent"
+              class="pay-button"
+              (click)="openPaymentDialog()">
+              <mat-icon>payment</mat-icon>
+              <span>Pay Now - {{ formatPrice(ticket.price) }}</span>
+            </button>
+            <p class="payment-notice">
+              <mat-icon>info</mat-icon>
+              Complete payment within {{ timeRemaining.minutes }} minutes to secure your ticket.
+            </p>
           </div>
 
           <div class="actions" *ngIf="canCancelTicket()">

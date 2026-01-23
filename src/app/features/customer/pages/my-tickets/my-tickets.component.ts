@@ -72,14 +72,14 @@ export class MyTicketsComponent implements OnInit {
 
     this.upcomingTickets = this.allTickets.filter(ticket => {
       const eventDate = new Date(ticket.eventDateTime);
-      return eventDate >= now && ticket.status === 'RESERVED';
+      return eventDate >= now && ['PENDING_PAYMENT', 'PAID', 'RESERVED'].includes(ticket.status);
     }).sort((a, b) =>
       new Date(a.eventDateTime).getTime() - new Date(b.eventDateTime).getTime()
     );
 
     this.pastTickets = this.allTickets.filter(ticket => {
       const eventDate = new Date(ticket.eventDateTime);
-      return eventDate < now || ticket.status === 'CANCELLED';
+      return eventDate < now || ['CANCELLED', 'PAYMENT_FAILED'].includes(ticket.status);
     }).sort((a, b) =>
       new Date(b.eventDateTime).getTime() - new Date(a.eventDateTime).getTime()
     );
@@ -142,7 +142,35 @@ export class MyTicketsComponent implements OnInit {
   }
 
   getStatusColor(status: string): string {
-    return status === 'RESERVED' ? 'primary' : 'warn';
+    switch (status) {
+      case 'PAID':
+      case 'RESERVED':
+        return 'primary';
+      case 'PENDING_PAYMENT':
+        return 'accent';
+      case 'PAYMENT_FAILED':
+      case 'CANCELLED':
+        return 'warn';
+      default:
+        return '';
+    }
+  }
+
+  payForTicket(ticket: TicketResponse): void {
+    this.router.navigate(['/customer/tickets', ticket.id], {
+      queryParams: { action: 'pay' }
+    });
+  }
+
+  isPendingPayment(ticket: TicketResponse): boolean {
+    return ticket.status === 'PENDING_PAYMENT';
+  }
+
+  isPaymentExpired(ticket: TicketResponse): boolean {
+    if (!ticket.paymentExpiresAt) {
+      return false;
+    }
+    return new Date(ticket.paymentExpiresAt) < new Date();
   }
 
   isCancelling(ticketId: string): boolean {
@@ -152,6 +180,6 @@ export class MyTicketsComponent implements OnInit {
   canCancelTicket(ticket: TicketResponse): boolean {
     const eventDate = new Date(ticket.eventDateTime);
     const now = new Date();
-    return ticket.status === 'RESERVED' && eventDate > now;
+    return ['RESERVED', 'PAID'].includes(ticket.status) && eventDate > now;
   }
 }
