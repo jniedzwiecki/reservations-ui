@@ -1,4 +1,5 @@
 import { UserRole } from './enums';
+import { VenueResponse } from './venue.model';
 
 export interface User {
   id: string;
@@ -13,6 +14,7 @@ export interface UserResponse {
   email: string;
   role: string;
   isRemovable: boolean;
+  assignedVenues?: VenueResponse[];
   createdAt: string;
 }
 

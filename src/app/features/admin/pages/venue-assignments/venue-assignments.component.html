@@ -1,0 +1,80 @@
+<div class="venue-assignments-container">
+  <div class="header">
+    <h1>Venue Assignments</h1>
+    <p class="subtitle">Manage which venues power users can access</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p>Loading users and venues...</p>
+  </div>
+
+  <div *ngIf="errorMessage && !loading" class="error-message">
+    <mat-icon>error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage" class="content">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Power Users and Their Assigned Venues</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div *ngIf="powerUsers.length === 0" class="empty-state">
+          <mat-icon>group</mat-icon>
+          <p>No power users found. Create power users first to assign them to venues.</p>
+        </div>
+
+        <div *ngIf="powerUsers.length > 0" class="table-container">
+          <table mat-table [dataSource]="powerUsers" class="assignments-table">
+            <!-- Email Column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Power User</th>
+              <td mat-cell *matCellDef="let user">
+                <div class="user-info">
+                  <mat-icon>person</mat-icon>
+                  <span>{{ user.email }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Assigned Venues Column -->
+            <ng-container matColumnDef="assignedVenues">
+              <th mat-header-cell *matHeaderCellDef>Assigned Venues</th>
+              <td mat-cell *matCellDef="let user">
+                <div class="venues-chips" *ngIf="user.assignedVenues && user.assignedVenues.length > 0">
+                  <mat-chip-set>
+                    <mat-chip *ngFor="let venue of user.assignedVenues">
+                      {{ venue.name }}
+                      <button matChipRemove (click)="unassignVenue(user, venue)">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip>
+                  </mat-chip-set>
+                </div>
+                <span *ngIf="!user.assignedVenues || user.assignedVenues.length === 0" class="no-venues">
+                  No venues assigned
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let user">
+                <button mat-raised-button color="primary" (click)="openAssignVenueDialog(user)">
+                  <mat-icon>add</mat-icon>
+                  Assign Venues
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+h2[mat-dialog-title] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  mat-icon {
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+mat-dialog-content {
+  padding: 24px;
+  min-width: 500px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.dialog-content {
+  .instruction {
+    margin: 0 0 16px 0;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.95rem;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    text-align: center;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: rgba(0, 0, 0, 0.3);
+      margin-bottom: 12px;
+    }
+
+    p {
+      margin: 0;
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  .venue-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .venue-item {
+      padding: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 4px;
+      transition: background-color 0.2s, border-color 0.2s;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+        border-color: rgba(0, 0, 0, 0.2);
+      }
+
+      mat-checkbox {
+        width: 100%;
+
+        .venue-info {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          margin-left: 8px;
+
+          .venue-name {
+            font-weight: 500;
+            font-size: 1rem;
+          }
+
+          .venue-details {
+            font-size: 0.85rem;
+            color: rgba(0, 0, 0, 0.6);
+          }
+        }
+      }
+    }
+  }
+}
+
+mat-dialog-actions {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 0;
+
+  .button-spinner {
+    display: inline-block;
+    margin-right: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  mat-dialog-content {
+    min-width: auto;
+    width: calc(100vw - 48px);
+  }
+}

@@ -45,7 +45,7 @@ export class EventsManagementComponent implements OnInit {
   loading = true;
   errorMessage = '';
   selectedStatus = 'ALL';
-  displayedColumns: string[] = ['name', 'date', 'capacity', 'sold', 'available', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'venue', 'date', 'capacity', 'sold', 'available', 'status', 'actions'];
 
   // Expose EventStatus enum to template
   EventStatus = EventStatus;

@@ -24,6 +24,8 @@
       <ng-container *ngIf="isAdminOrPowerUser()">
         <a mat-button routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
         <a mat-button routerLink="/admin/events" routerLinkActive="active">Events Management</a>
+        <a mat-button *ngIf="isAdmin()" routerLink="/admin/venues" routerLinkActive="active">Venues</a>
+        <a mat-button *ngIf="isAdmin()" routerLink="/admin/venue-assignments" routerLinkActive="active">Venue Assignments</a>
         <a mat-button *ngIf="isAdmin()" routerLink="/admin/users" routerLinkActive="active">Users</a>
       </ng-container>
     </nav>
@@ -83,6 +85,14 @@
         <a mat-list-item routerLink="/admin/events" (click)="toggleMobileMenu()" routerLinkActive="active">
           <mat-icon matListItemIcon>event</mat-icon>
           <span matListItemTitle>Events Management</span>
+        </a>
+        <a mat-list-item *ngIf="isAdmin()" routerLink="/admin/venues" (click)="toggleMobileMenu()" routerLinkActive="active">
+          <mat-icon matListItemIcon>location_city</mat-icon>
+          <span matListItemTitle>Venues</span>
+        </a>
+        <a mat-list-item *ngIf="isAdmin()" routerLink="/admin/venue-assignments" (click)="toggleMobileMenu()" routerLinkActive="active">
+          <mat-icon matListItemIcon>assignment</mat-icon>
+          <span matListItemTitle>Venue Assignments</span>
         </a>
         <a mat-list-item *ngIf="isAdmin()" routerLink="/admin/users" (click)="toggleMobileMenu()" routerLinkActive="active">
           <mat-icon matListItemIcon>group</mat-icon>

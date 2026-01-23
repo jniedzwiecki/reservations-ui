@@ -13,8 +13,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminEventService } from '../../services/admin-event.service';
 import { EventService } from '../../../customer/services/event.service';
+import { VenueService } from '../../services/venue.service';
 import { CreateEventRequest, UpdateEventRequest } from '../../../../shared/models';
 import { EventStatus } from '../../../../shared/models/enums';
+import { VenueResponse } from '../../../../shared/models/venue.model';
 
 @Component({
   selector: 'app-event-form',
@@ -42,6 +44,7 @@ export class EventFormComponent implements OnInit {
   errorMessage = '';
   isEditMode = false;
   eventId: string | null = null;
+  venues: VenueResponse[] = [];
 
   eventStatuses = [
     { value: EventStatus.DRAFT, label: 'Draft' },
@@ -54,12 +57,14 @@ export class EventFormComponent implements OnInit {
     private fb: FormBuilder,
     private adminEventService: AdminEventService,
     private eventService: EventService,
+    private venueService: VenueService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.loadVenues();
     this.checkEditMode();
   }
 
@@ -71,7 +76,20 @@ export class EventFormComponent implements OnInit {
       eventTime: ['', Validators.required],
       capacity: [0, [Validators.required, Validators.min(1), Validators.max(10000)]],
       price: [0, [Validators.required, Validators.min(0.01)]],
-      status: [EventStatus.DRAFT, Validators.required]
+      status: [EventStatus.DRAFT, Validators.required],
+      venueId: ['', Validators.required]
+    });
+  }
+
+  loadVenues(): void {
+    this.venueService.getAllVenues().subscribe({
+      next: (venues) => {
+        this.venues = venues;
+      },
+      error: (error) => {
+        console.error('Error loading venues:', error);
+        this.errorMessage = 'Failed to load venues. Please try again.';
+      }
     });
   }
 
@@ -99,7 +117,8 @@ export class EventFormComponent implements OnInit {
           eventTime: timeString,
           capacity: event.capacity,
           price: event.price,
-          status: event.status
+          status: event.status,
+          venueId: event.venueId
         });
         this.loading = false;
       },
@@ -128,7 +147,8 @@ export class EventFormComponent implements OnInit {
         description: formValue.description,
         eventDateTime: eventDateTime,
         capacity: formValue.capacity,
-        price: formValue.price
+        price: formValue.price,
+        venueId: formValue.venueId
       };
 
       this.adminEventService.updateEvent(this.eventId, updateData).subscribe({
@@ -147,7 +167,8 @@ export class EventFormComponent implements OnInit {
         eventDateTime: eventDateTime,
         capacity: formValue.capacity,
         price: formValue.price,
-        status: formValue.status
+        status: formValue.status,
+        venueId: formValue.venueId
       };
 
       this.adminEventService.createEvent(createData).subscribe({

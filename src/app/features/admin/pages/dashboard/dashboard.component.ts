@@ -83,13 +83,18 @@ export class DashboardComponent implements OnInit {
     if (salesRequests.length > 0) {
       forkJoin(salesRequests).subscribe({
         next: (salesData: EventSalesResponse[]) => {
+          console.log('[Dashboard] Sales data received:', salesData);
           this.metrics.totalRevenue = salesData.reduce((sum, sales) => sum + sales.revenue, 0);
           const avgOccupancy = salesData.reduce((sum, sales) => sum + sales.occupancyRate, 0) / salesData.length;
           this.metrics.avgOccupancy = isNaN(avgOccupancy) ? 0 : avgOccupancy;
+          console.log('[Dashboard] Calculated metrics:', this.metrics);
+          this.cdr.detectChanges();
         },
-        error: () => {
+        error: (error) => {
+          console.error('[Dashboard] Error loading sales data:', error);
           this.metrics.totalRevenue = 0;
           this.metrics.avgOccupancy = 0;
+          this.cdr.detectChanges();
         }
       });
     }

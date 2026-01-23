@@ -80,6 +80,19 @@
           </div>
 
           <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Venue</mat-label>
+            <mat-select formControlName="venueId">
+              <mat-option *ngFor="let venue of venues" [value]="venue.id">
+                {{ venue.name }} - {{ venue.address }} (Capacity: {{ venue.capacity }})
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="eventForm.get('venueId')?.invalid && eventForm.get('venueId')?.touched">
+              Venue is required
+            </mat-error>
+            <mat-hint *ngIf="venues.length === 0">No venues available. Please create a venue first.</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
             <mat-label>Status</mat-label>
             <mat-select formControlName="status">
               <mat-option *ngFor="let status of eventStatuses" [value]="status.value">

@@ -9,6 +9,8 @@ export interface EventResponse {
   price: number;
   status: string;
   availableTickets: number;
+  venueId: string;
+  venueName: string;
   createdAt: string;
 }
 
@@ -19,6 +21,7 @@ export interface CreateEventRequest {
   capacity: number;
   price: number;
   status: EventStatus;
+  venueId: string;
 }
 
 export interface UpdateEventRequest {
@@ -27,6 +30,7 @@ export interface UpdateEventRequest {
   eventDateTime?: string;
   capacity?: number;
   price?: number;
+  venueId?: string;
 }
 
 export interface UpdateEventStatusRequest {

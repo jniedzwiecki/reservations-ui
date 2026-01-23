@@ -101,6 +101,30 @@ export const routes: Routes = [
         loadComponent: () => import('./features/admin/pages/create-power-user/create-power-user.component').then(m => m.CreatePowerUserComponent)
       },
       {
+        path: 'venues',
+        canActivate: [roleGuard],
+        data: { roles: [UserRole.ADMIN] },
+        loadComponent: () => import('./features/admin/pages/venues-management/venues-management.component').then(m => m.VenuesManagementComponent)
+      },
+      {
+        path: 'venues/new',
+        canActivate: [roleGuard],
+        data: { roles: [UserRole.ADMIN] },
+        loadComponent: () => import('./features/admin/pages/venue-form/venue-form.component').then(m => m.VenueFormComponent)
+      },
+      {
+        path: 'venues/edit/:id',
+        canActivate: [roleGuard],
+        data: { roles: [UserRole.ADMIN] },
+        loadComponent: () => import('./features/admin/pages/venue-form/venue-form.component').then(m => m.VenueFormComponent)
+      },
+      {
+        path: 'venue-assignments',
+        canActivate: [roleGuard],
+        data: { roles: [UserRole.ADMIN] },
+        loadComponent: () => import('./features/admin/pages/venue-assignments/venue-assignments.component').then(m => m.VenueAssignmentsComponent)
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
