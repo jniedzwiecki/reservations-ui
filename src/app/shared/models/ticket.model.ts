@@ -6,6 +6,8 @@ export interface TicketResponse {
   eventId: string;
   eventName: string;
   eventDateTime: string;
+  venueId: string;
+  venueName: string;
   price: number;
   status: string;
   reservedAt: string;

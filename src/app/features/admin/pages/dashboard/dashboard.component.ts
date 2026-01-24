@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
   recentEvents: EventResponse[] = [];
   loading = true;
   errorMessage = '';
-  displayedColumns: string[] = ['name', 'date', 'capacity', 'sold', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'date', 'venue', 'capacity', 'sold', 'status', 'actions'];
 
   constructor(
     private eventService: EventService,

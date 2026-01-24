@@ -73,6 +73,11 @@
             <td mat-cell *matCellDef="let event">{{ formatDate(event.eventDateTime) }}</td>
           </ng-container>
 
+          <ng-container matColumnDef="venue">
+            <th mat-header-cell *matHeaderCellDef>Venue</th>
+            <td mat-cell *matCellDef="let event">{{ event.venueName }}</td>
+          </ng-container>
+
           <ng-container matColumnDef="capacity">
             <th mat-header-cell *matHeaderCellDef>Capacity</th>
             <td mat-cell *matCellDef="let event">{{ event.capacity }}</td>
