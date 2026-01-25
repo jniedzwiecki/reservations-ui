@@ -11,6 +11,7 @@ export interface EventResponse {
   availableTickets: number;
   venueId: string;
   venueName: string;
+  externalId?: string;
   createdAt: string;
 }
 

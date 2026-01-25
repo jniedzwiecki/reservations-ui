@@ -4,6 +4,8 @@ export interface VenueResponse {
   address: string;
   description?: string;
   capacity: number;
+  source?: string;
+  externalId?: string;
   createdAt: string;
   updatedAt: string;
 }
