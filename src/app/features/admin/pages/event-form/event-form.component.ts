@@ -157,7 +157,7 @@ export class EventFormComponent implements OnInit {
         },
         error: (error) => {
           this.loading = false;
-          this.errorMessage = error.error?.message || 'Failed to update event.';
+          this.errorMessage = error.message || 'Failed to update event.';
         }
       });
     } else {
@@ -177,7 +177,7 @@ export class EventFormComponent implements OnInit {
         },
         error: (error) => {
           this.loading = false;
-          this.errorMessage = error.error?.message || 'Failed to create event.';
+          this.errorMessage = error.message || 'Failed to create event.';
         }
       });
     }
